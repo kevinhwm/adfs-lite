@@ -1,0 +1,94 @@
+
+==================================================================
+adfslite安装＆运行
+
+
+1. 安装依赖包
+	gcc
+	make
+    automake
+	zlib-devel(或zlib-dev)
+	kyotocabinet
+
+    某些发行版还需要安装以下包
+	openssl-devel(或openssl-dev), 
+	bizp2-devel(或bizip2-dev), 
+
+2. adfslite以tar.gz包发布
+    以3.1.2版本为例，执行如下命令:
+
+    tar zxvf adfslite-3.1.2.tar.gz
+    cd adfslite-3.1.2
+    ./configure
+    make
+    #需要root权限
+    make install
+
+3.  运行adfslite -h 查看启动说明。
+==================================================================
+
+
+==================================================================
+adfslite调用说明
+
+
+http访问方式：
+１. 上传文件
+url: http://host:port/upload_file/{?namespace=<space>}
+method:post
+输入：
+控件id:myfile
+提供可选参数：namespace=[space],在获取下载的时候，也需要指定该space.
+return:
+    成功：HTTP Code:200
+    文件过大，失败：HTTP Code:413
+    存储失败：HTTP Code:500 
+    
+2. 下载文件（不删除）
+url: http://host:port/download/[filename]{?namespace=<space>}
+method:get
+提供可选参数：namespace=[space],提供在上传时指定的space名称.
+return:
+    成功：HTTP Code:200
+    文件未找到：HTTP Code:404 
+    
+3. 下载文件并删除
+url: http://host:port/fetch/[filename]{?namespace=<space>}
+method:get
+提供可选参数：namespace=[space],提供在上传时指定的space名称.
+return:
+    HTTP Code:200
+    文件未找到：HTTP Code:404 
+
+4. 删除文件
+url: http://host:port/delete/[filename]{?namespace=<space>}
+method:get
+提供可选参数：namespace=[space],提供在上传时指定的space名称.
+return:
+    HTTP Code:200
+
+5. 批量删除文件
+url: http://host:port/deletefiles/?names=[file1]:[file2]:[file3]{namespace=<space>}
+method:get
+提供可选参数：namespace=[space],提供在上传时指定的space名称.
+return:
+    成功：HTTP Code:200
+
+6. 查看当前存储状态
+url: http://host/status
+method:get
+return:
+    Kyotocabinet详细信息。详见kyotocabinet report.
+
+7. 手动清理指定小时前的所有样本
+url: http://host/clean/[hour]
+method:get
+return:
+    成功：HTTP Code:200
+    失败：HTTP Code:403
+
+[hour] 指定小时数，必须在0-99之间。
+sample:
+    curl http://127.0.0.1:11911/clean/2  删除2小时以前的所有样本
+
+
