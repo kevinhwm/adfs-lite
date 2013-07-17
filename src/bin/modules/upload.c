@@ -1,4 +1,3 @@
-
 #include "nxweb/nxweb.h"
 #include "../post_parser/multipart_parser.h"
 #include <kclangc.h>
@@ -6,7 +5,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
-
 
 extern int MAX_UPLOAD_SIZE;
 extern int RECORD_HEADER_LEN;
@@ -83,7 +81,6 @@ int on_post_finished (multipart_parser * mp_obj)
     return 0;
 }
 
-
 static nxweb_result upload_on_request(
 	nxweb_http_server_connection* conn, 
 	nxweb_http_request* req, 
@@ -152,7 +149,6 @@ static nxweb_result upload_on_request(
 	    "</form>" );
     return NXWEB_OK;
 }
-
 
 static void upload_request_data_finalize(
 	nxweb_http_server_connection* conn, 

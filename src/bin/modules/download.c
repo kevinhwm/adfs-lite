@@ -87,7 +87,6 @@ static nxweb_result download_on_request(nxweb_http_server_connection* conn, nxwe
     return NXWEB_OK;
 }
 
-
 static void fetch_request_data_finalize(
 	nxweb_http_server_connection *conn,
 	nxweb_http_request *req,
@@ -154,7 +153,6 @@ static nxweb_result fetch_on_request(
     free(url);
     return NXWEB_OK;
 }
-
 
 static nxweb_result delete_on_request(
 	nxweb_http_server_connection* conn, 
@@ -294,7 +292,6 @@ static nxweb_result clean_on_request(
     return NXWEB_OK;
 }
 
-
 /////////////// status /////////////////////
 static nxweb_result status_on_request(nxweb_http_server_connection* conn, nxweb_http_request* req, nxweb_http_response* resp) 
 {
@@ -316,8 +313,6 @@ static nxweb_result status_on_request(nxweb_http_server_connection* conn, nxweb_
     return NXWEB_OK;
 }
 
-
-/////////////// list all names /////////////////////
 static nxweb_result list_on_request(nxweb_http_server_connection* conn, nxweb_http_request* req, nxweb_http_response* resp) 
 {
     nxweb_set_response_content_type(resp, "text/plain");
