@@ -39,7 +39,6 @@ extern nxweb_handler list_handler;
 
 
 KCDB* g_kcdb;
-//KCCUR * g_kccur;
 int RECORD_HEADER_LEN = 4;
 int MAX_UPLOAD_SIZE = 80; 
 
@@ -122,15 +121,10 @@ static void server_main() {
     // alarm is set to be 60000000
     nxweb_set_timeout(NXWEB_TIMER_KEEP_ALIVE, 30000000);
 
-
     // Go!
     nxweb_run();
 
-    //if (g_kccur);
-    //    kccurdel(g_kccur);
-
-    if( g_kcdb)
-    {
+    if( g_kcdb) {
         kcdbclose( g_kcdb );
         g_kcdb = NULL;
         printf("db closed.\n");
@@ -181,7 +175,7 @@ int main(int argc, char** argv)
                 show_help();
                 return 0;
             case 'v':
-                printf( "VERSION:      adfslite - 3.2.2\n"
+                printf( "VERSION:      adfslite - 3.2.3\n"
                         "BUILD-DATE:   "__DATE__ " " __TIME__"\n" );
                 return 0;
             case 'd':
@@ -251,27 +245,20 @@ int main(int argc, char** argv)
     char path[1024] = {0};
     mem_size *= 1024*1024;
     MAX_UPLOAD_SIZE *= 1024*1024;
-    sprintf(path, "%s#apow=%d#fpow=%d#msiz=%lu#dfunit=%d",
-            dbpath, 10, 10, mem_size, 8);
+    sprintf(path, "%s#apow=%d#fpow=%d#msiz=%lu#dfunit=%d", dbpath, 10, 10, mem_size, 8);
 
     int32_t succ = kcdbopen( g_kcdb, path, KCOWRITER|KCOCREATE);
-    if( succ )
-        printf("using dbpath :%s\n", dbpath );
+    if( succ ) {printf("using dbpath :%s\n", dbpath );}
     else{
         printf("db open failed:%s\n", dbpath );
         exit(-1);
     }
 
-    //g_kccur = kcdbcursor(g_kcdb);
-
     if (daemon) {
-        if (!log_file) log_file="nxweb_error_log";
+        if (!log_file) {log_file="nxweb_error_log";}
         nxweb_run_daemon(work_dir, log_file, pid_file, server_main);
     }
-    else {
-        nxweb_run_normal(work_dir, log_file, pid_file, server_main);
-
-    }
+    else { nxweb_run_normal(work_dir, log_file, pid_file, server_main); }
     return EXIT_SUCCESS;
 }
 
