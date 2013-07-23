@@ -1,4 +1,3 @@
-
 #include "nxweb/nxweb.h"
 #include <stdio.h>
 #include <kclangc.h>
@@ -50,9 +49,9 @@ NXWEB_SET_HANDLER(test, "/test", &test_handler, .priority=900);
 // This is sample handler (see modules/hello.c):
 NXWEB_SET_HANDLER(hello, "/hello", &hello_handler, .priority=1000, .filters={
 #ifdef WITH_ZLIB
-        &gzip_filter
+	&gzip_filter
 #endif
-        });
+	});
 
 // This is sample handler (see modules/upload.c):
 NXWEB_SET_HANDLER(upload, "/upload_file", &upload_file_handler, .priority=1000);
@@ -67,28 +66,28 @@ NXWEB_SET_HANDLER(list, "/list", &list_handler, .priority=1000);
 
 // This proxies requests to backend with index 0 (see proxy setup further below):
 NXWEB_SET_HANDLER(backend1, "/backend1", &nxweb_http_proxy_handler, .priority=10000, .idx=0, .uri="",
-        .filters={ &file_cache_filter, &templates_filter, &ssi_filter },
-        .file_cache_dir="www/cache/proxy");
+	.filters={ &file_cache_filter, &templates_filter, &ssi_filter },
+	.file_cache_dir="www/cache/proxy");
 
 // This proxies requests to backend with index 1 (see proxy setup further below):
 NXWEB_SET_HANDLER(backend2, "/backend2", &nxweb_http_proxy_handler, .priority=10000, .idx=1, .uri="",
-        .filters={ &file_cache_filter, &templates_filter, &ssi_filter },
-        .file_cache_dir="www/cache/proxy");
+	.filters={ &file_cache_filter, &templates_filter, &ssi_filter },
+	.file_cache_dir="www/cache/proxy");
 
 // This serves static files from $(work_dir)/www/root directory:
 NXWEB_SET_HANDLER(sendfile, 0, &sendfile_handler, .priority=900000,
-        .filters={
-        &templates_filter,
-        &ssi_filter,
+	.filters={
+	&templates_filter,
+	&ssi_filter,
 #ifdef WITH_IMAGEMAGICK
-        &image_filter,
+	&image_filter,
 #endif
 #ifdef WITH_ZLIB
-        &gzip_filter
+	&gzip_filter
 #endif
-        }, .dir="www/root",
-        .charset=NXWEB_DEFAULT_CHARSET, .index_file=NXWEB_DEFAULT_INDEX_FILE,
-        .gzip_dir="www/cache/gzip", .img_dir="www/cache/img", .cache=1);
+	}, .dir="www/root",
+	.charset=NXWEB_DEFAULT_CHARSET, .index_file=NXWEB_DEFAULT_INDEX_FILE,
+	.gzip_dir="www/cache/gzip", .img_dir="www/cache/img", .cache=1);
 
 
 // Command-line options:
@@ -100,8 +99,8 @@ static int ssl_port=8056;
 
 // Server main():
 
-static void server_main() {
-
+static void server_main() 
+{
     // Bind listening interfaces:
     char host_and_port[32];
     snprintf(host_and_port, sizeof(host_and_port), ":%d", port);
@@ -125,36 +124,35 @@ static void server_main() {
     nxweb_run();
 
     if( g_kcdb) {
-        kcdbclose( g_kcdb );
-        g_kcdb = NULL;
-        printf("db closed.\n");
+	kcdbclose( g_kcdb );
+	g_kcdb = NULL;
+	printf("db closed.\n");
     }
 }
 
-
 // Utility stuff:
-
-static void show_help(void) {
+static void show_help(void) 
+{
     printf( "usage:    adfslite <options>\n\n"
-            " -d       run as daemon\n"
-            " -s       shutdown nxweb\n"
-            " -m mem   set memory map size in MB (default: 64)\n"
-            " -M fMax  set file max size in MB   (default: 80)\n"
-            " -w dir   set work dir    (default: ./)\n"
-            " -l file  set log file    (default: stderr or nxweb_error_log for daemon)\n"
-            " -p file  set pid file    (default: nxweb.pid)\n"
-            " -u user  set process uid\n"
-            " -g group set process gid\n"
-            " -P port  set http port\n"
-            " -x path  database file   (default: ./store.kch)\n"
+	    " -d       run as daemon\n"
+	    " -s       shutdown adfslite\n"
+	    " -m mem   set memory map size in MB (default: 64)\n"
+	    " -M fMax  set file max size in MB   (default: 80)\n"
+	    " -w dir   set work dir    (default: ./)\n"
+	    " -l file  set log file    (default: stderr or adfslite.log for daemon)\n"
+	    " -p file  set pid file    (default: adfslite.pid)\n"
+	    //" -u user  set process uid\n"
+	    //" -g group set process gid\n"
+	    " -P port  set http port\n"
+	    " -x file  database file   (default: ./store.kch)\n"
 #ifdef WITH_SSL
-            " -S port  set https port\n"
+	    " -S port  set https port\n"
 #endif
-            " -h       show this help\n"
-            " -v       show version\n"
-            "\n"
-            "example:  nxweb -d -l nxweb_error_log\n\n"
-          );
+	    " -h       show this help\n"
+	    " -v       show version\n"
+	    "\n"
+	    "example:  adfslite -w . -d -l adfslite.log\n\n"
+	  );
 }
 
 int main(int argc, char** argv) 
@@ -170,74 +168,74 @@ int main(int argc, char** argv)
 
     int c;
     while ((c=getopt(argc, argv, ":hvdsm:M:w:l:p:u:g:P:x:S:"))!=-1) {
-        switch (c) {
-            case 'h':
-                show_help();
-                return 0;
-            case 'v':
-                printf( "VERSION:      adfslite - 3.2.3\n"
-                        "BUILD-DATE:   "__DATE__ " " __TIME__"\n" );
-                return 0;
-            case 'd':
-                daemon=1;
-                break;
-            case 's':
-                shutdown=1;
-                break;
-            case 'm':
-                mem_size = atoi(optarg);
-                break;
-            case 'M':
-                MAX_UPLOAD_SIZE = atoi(optarg);
-                break;
-            case 'w':
-                work_dir=optarg;
-                break;
-            case 'l':
-                log_file=optarg;
-                break;
-            case 'p':
-                pid_file=optarg;
-                break;
-            case 'u':
-                user_name=optarg;
-                break;
-            case 'g':
-                group_name=optarg;
-                break;
-            case 'x':
-                dbpath = optarg;
-                break;
-            case 'P':
-                port=atoi(optarg);
-                if (port<=0) {
-                    fprintf(stderr, "invalid port: %s\n\n", optarg);
-                    return EXIT_FAILURE;
-                }
-                break;
-            case 'S':
-                ssl_port=atoi(optarg);
-                if (ssl_port<=0) {
-                    fprintf(stderr, "invalid ssl port: %s\n\n", optarg);
-                    return EXIT_FAILURE;
-                }
-                break;
-            case '?':
-                fprintf(stderr, "unkown option: -%c\n\n", optopt);
-                show_help();
-                return EXIT_FAILURE;
-        }
+	switch (c) {
+	    case 'h':
+		show_help();
+		return 0;
+	    case 'v':
+		printf( "VERSION:      adfslite - 3.2.4\n"
+			"BUILD-DATE:   "__DATE__ " " __TIME__"\n" );
+		return 0;
+	    case 'd':
+		daemon=1;
+		break;
+	    case 's':
+		shutdown=1;
+		break;
+	    case 'm':
+		mem_size = atoi(optarg);
+		break;
+	    case 'M':
+		MAX_UPLOAD_SIZE = atoi(optarg);
+		break;
+	    case 'w':
+		work_dir=optarg;
+		break;
+	    case 'l':
+		log_file=optarg;
+		break;
+	    case 'p':
+		pid_file=optarg;
+		break;
+	    case 'u':
+		user_name=optarg;
+		break;
+	    case 'g':
+		group_name=optarg;
+		break;
+	    case 'x':
+		dbpath = optarg;
+		break;
+	    case 'P':
+		port=atoi(optarg);
+		if (port<=0) {
+		    fprintf(stderr, "invalid port: %s\n\n", optarg);
+		    return EXIT_FAILURE;
+		}
+		break;
+	    case 'S':
+		ssl_port=atoi(optarg);
+		if (ssl_port<=0) {
+		    fprintf(stderr, "invalid ssl port: %s\n\n", optarg);
+		    return EXIT_FAILURE;
+		}
+		break;
+	    case '?':
+		fprintf(stderr, "unkown option: -%c\n\n", optopt);
+		show_help();
+		return EXIT_FAILURE;
+	}
     }
 
     if ((argc-optind)>0) {
-        fprintf(stderr, "too many arguments\n\n");
-        show_help();
-        return EXIT_FAILURE;
+	fprintf(stderr, "too many arguments\n\n");
+	show_help();
+	return EXIT_FAILURE;
     }
 
     if (shutdown) {
-        nxweb_shutdown_daemon(work_dir, pid_file);
-        return EXIT_SUCCESS;
+	nxweb_shutdown_daemon(work_dir, pid_file);
+	return EXIT_SUCCESS;
     }
 
     // using kchashdb to store files.
@@ -250,13 +248,13 @@ int main(int argc, char** argv)
     int32_t succ = kcdbopen( g_kcdb, path, KCOWRITER|KCOCREATE);
     if( succ ) {printf("using dbpath :%s\n", dbpath );}
     else{
-        printf("db open failed:%s\n", dbpath );
-        exit(-1);
+	printf("db open failed:%s\n", dbpath );
+	exit(-1);
     }
 
     if (daemon) {
-        if (!log_file) {log_file="nxweb_error_log";}
-        nxweb_run_daemon(work_dir, log_file, pid_file, server_main);
+	if (!log_file) {log_file="adfslite.log";}
+	nxweb_run_daemon(work_dir, log_file, pid_file, server_main);
     }
     else { nxweb_run_normal(work_dir, log_file, pid_file, server_main); }
     return EXIT_SUCCESS;

@@ -25,8 +25,8 @@ static void upload_request_data_finalize(
 	nxe_data data)
 {
     KC_DATA * d = data.ptr;
-    if( d->data_ptr ){
-	kcfree( d->data_ptr );
+    if(d->data_ptr){
+	kcfree(d->data_ptr);
 	d->data_ptr = NULL;
     }
 }
@@ -54,7 +54,7 @@ static nxweb_result download_on_request(nxweb_http_server_connection* conn, nxwe
 	snprintf( err_msg, sizeof(err_msg)-1, 
 		"<html><body>File not found<br/>namespace:%s<br/>filename:%.*s</body></html>", 
 		name_space, fname_len, fname );
-	nxweb_send_http_error( resp, 404, err_msg );
+	nxweb_send_http_error(resp, 404, err_msg);
 	resp->keep_alive=0;
 	free(url);
 	return NXWEB_MISS;
@@ -72,7 +72,7 @@ static nxweb_result download_on_request(nxweb_http_server_connection* conn, nxwe
 	snprintf( err_msg, sizeof(err_msg)-1, 
 		"<html><body>File not found<br/>namespace:%s<br/>filename:%.*s</body></html>", 
 		name_space, fname_len, fname );
-	nxweb_send_http_error( resp, 404, err_msg );
+	nxweb_send_http_error(resp, 404, err_msg);
 	resp->keep_alive=0;
 	free(url);
 	return NXWEB_MISS;
@@ -112,18 +112,18 @@ static nxweb_result fetch_on_request(
     strcpy(url, req->path_info);
     url[strlen(req->path_info)] = '\0';
 
-    nxweb_url_decode( url, 0 );
+    nxweb_url_decode(url, 0);
     char *fname = url, *temp;
 
     while (temp = strstr(fname, "/")) {fname = temp + 1;}
     char *strip_args = strstr( fname, "?" );
     int fname_len = strip_args ? (strip_args-fname) : strlen( fname );
     char fname_with_space[1024]= {0};
-    if( strlen( url ) > sizeof( fname_with_space )-1 ) {
+    if (strlen(url) > sizeof(fname_with_space)-1) {
 	char err_msg[1024] = {0};
-	snprintf( err_msg, sizeof(err_msg)-1, 
+	snprintf(err_msg, sizeof(err_msg)-1, 
 		"File not found<br/>namespace:%s<br/>filename:%.*s" , name_space, fname_len, fname);
-	nxweb_send_http_error( resp, 404, err_msg );
+	nxweb_send_http_error(resp, 404, err_msg);
 	resp->keep_alive=0;
 	free(url);
 	return NXWEB_MISS;
