@@ -173,7 +173,7 @@ int main(int argc, char** argv)
 		show_help();
 		return 0;
 	    case 'v':
-		printf( "VERSION:      adfslite - 3.2.4\n"
+		printf( "VERSION:      adfslite - 3.2.5\n"
 			"BUILD-DATE:   "__DATE__ " " __TIME__"\n" );
 		return 0;
 	    case 'd':

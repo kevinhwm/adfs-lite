@@ -224,7 +224,7 @@ static nxweb_result delete_batch_on_request(
 	if (name_space) {strcpy(fnames_with_space[fname_cnt], name_space);}
 	strcat(fnames_with_space[fname_cnt], ":/" );
 	strncat(fnames_with_space[fname_cnt], pC, fname_len);
-	kc_fnames[fname_cnt].buf = (char *)fnames_with_space + fname_cnt;
+	kc_fnames[fname_cnt].buf = (char *)(fnames_with_space + fname_cnt);
 	kc_fnames[fname_cnt].size = strlen(fnames_with_space[fname_cnt]);
 	pC = pT;
 	fname_cnt++;
