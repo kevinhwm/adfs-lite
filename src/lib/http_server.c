@@ -743,6 +743,7 @@ static void on_sigterm(int sig) {
 
 static void on_sigalrm(int sig) {
   nxweb_log_error("SIGALRM received. Exiting");
+  adfs_exit();
   exit(EXIT_SUCCESS);
 }
 

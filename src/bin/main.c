@@ -108,7 +108,8 @@ static void server_main()
 #ifdef WITH_SSL
     char ssl_host_and_port[32];
     snprintf(ssl_host_and_port, sizeof(ssl_host_and_port), ":%d", ssl_port);
-    if (nxweb_listen_ssl(ssl_host_and_port, 1024, 1, SSL_CERT_FILE, SSL_KEY_FILE, SSL_DH_PARAMS_FILE, SSL_PRIORITIES)) return; // simulate normal exit so nxweb is not respawned
+    if (nxweb_listen_ssl(ssl_host_and_port, 1024, 1, SSL_CERT_FILE, SSL_KEY_FILE, SSL_DH_PARAMS_FILE, SSL_PRIORITIES)) return; 
+    // simulate normal exit so nxweb is not respawned
 #endif // WITH_SSL
 
     // Drop privileges:
@@ -155,6 +156,15 @@ static void show_help(void)
 	  );
 }
 
+void adfs_exit()
+{
+    if( g_kcdb) {
+	kcdbclose( g_kcdb );
+	g_kcdb = NULL;
+	printf("db closed.\n");
+    }
+}
+
 int main(int argc, char** argv) 
 {
     int daemon=0;
@@ -173,7 +183,7 @@ int main(int argc, char** argv)
 		show_help();
 		return 0;
 	    case 'v':
-		printf( "VERSION:      adfslite - 3.2.5\n"
+		printf( "VERSION:      adfslite - 3.2.6\n"
 			"BUILD-DATE:   "__DATE__ " " __TIME__"\n" );
 		return 0;
 	    case 'd':
