@@ -842,6 +842,7 @@ void nxweb_run() {
     exit(EXIT_SUCCESS); // simulate normal exit so nxweb is not respawned
   }
 
+  // Block signals for all threads
   nxweb_net_thread_data* tdata;
   for (i=0, tdata=net_threads; i<_nxweb_num_net_threads; i++, tdata++) {
     tdata->thread_num=i;
@@ -870,6 +871,7 @@ void nxweb_run() {
     exit(EXIT_SUCCESS); // simulate normal exit so nxweb is not respawned
   }
 
+  printf("ADFS running ...\n");
   for (i=0; i<_nxweb_num_net_threads; i++) {
     pthread_join(net_threads[i].thread_id, 0);
   }

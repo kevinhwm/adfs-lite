@@ -183,7 +183,7 @@ int main(int argc, char** argv)
 		show_help();
 		return 0;
 	    case 'v':
-		printf( "VERSION:      adfslite - 3.2.6\n"
+		printf( "VERSION:      adfslite - 3.2.7\n"
 			"BUILD-DATE:   "__DATE__ " " __TIME__"\n" );
 		return 0;
 	    case 'd':
@@ -263,7 +263,7 @@ int main(int argc, char** argv)
     }
 
     if (daemon) {
-	if (!log_file) {log_file="adfslite.log";}
+	if (!log_file) {log_file="alcore.log";}
 	nxweb_run_daemon(work_dir, log_file, pid_file, server_main);
     }
     else { nxweb_run_normal(work_dir, log_file, pid_file, server_main); }
