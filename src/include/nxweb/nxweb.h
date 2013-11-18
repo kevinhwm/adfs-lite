@@ -316,7 +316,7 @@ int nxweb_setup_http_proxy_pool(int idx, const char* host_and_port);
 void nxweb_set_timeout(enum nxweb_timers timer_idx, nxe_time_t timeout);
 void nxweb_run();
 
-void adfs_exit();
+void _dfs_exit();
 
 void nxweb_parse_request_parameters(nxweb_http_request *req, int preserve_uri); // Modifies conn->uri and request_body content (does url_decode inplace)
 void nxweb_parse_request_cookies(nxweb_http_request *req); // Modifies conn->cookie content (does url_decode inplace)

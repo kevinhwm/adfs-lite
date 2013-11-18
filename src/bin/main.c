@@ -156,7 +156,7 @@ static void show_help(void)
 	  );
 }
 
-void adfs_exit()
+void _dfs_exit()
 {
     if( g_kcdb) {
 	kcdbclose( g_kcdb );
@@ -183,7 +183,7 @@ int main(int argc, char** argv)
 		show_help();
 		return 0;
 	    case 'v':
-		printf( "VERSION:      adfslite - 3.2.7\n"
+		printf( "VERSION:      adfslite - 3.2.8\n"
 			"BUILD-DATE:   "__DATE__ " " __TIME__"\n" );
 		return 0;
 	    case 'd':
