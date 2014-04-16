@@ -760,8 +760,7 @@ void _nxweb_prepare_response_headers(nxe_loop* loop, nxweb_http_response *resp) 
   nxb_append_str(nxb, resp->status? resp->status : "OK");
   nxb_make_room(nxb, 200);
   nxb_append_str_fast(nxb, "\r\n"
-                      //"Server: nxweb/" REVISION "\r\n"
-                      "Server: ADFS\r\n"
+                      "Server: nxweb/" REVISION "\r\n"
                       "Date: ");
   nxb_append_str_fast(nxb, nxe_get_current_http_time_str(loop));
   nxb_append_str_fast(nxb, "\r\n"
@@ -874,8 +873,7 @@ void nxweb_send_redirect2(nxweb_http_response *resp, int code, const char* locat
   nxb_append_char_fast(nxb, ' ');
   nxb_append_str(nxb, resp->status);
   nxb_append_str_fast(nxb, "\r\n"
-                      //"Server: nxweb/" REVISION "\r\n"
-                      "Server: ADFS\r\n"
+                      "Server: nxweb/" REVISION "\r\n"
                       "Date: ");
   nxb_append_str_fast(nxb, nxe_get_current_http_time_str(_nxweb_net_thread_data->loop));
   nxb_append_str_fast(nxb, "\r\n"
@@ -901,8 +899,7 @@ void nxweb_send_redirect2(nxweb_http_response *resp, int code, const char* locat
 void nxweb_send_http_error(nxweb_http_response *resp, int code, const char* message) {
   static const char* response_body1="<html>\n<head><title>";
   static const char* response_body2="</title></head>\n<body>\n<h1>";
-  //static const char* response_body3="</h1>\n<p>nxweb/" REVISION "</p>\n</body>\n</html>";
-  static const char* response_body3="</h1>\n<p>ADFS</p>\n</body>\n</html>";
+  static const char* response_body3="</h1>\n<p>nxweb/" REVISION "</p>\n</body>\n</html>";
   nxweb_set_response_status(resp, code, message);
   nxb_buffer* nxb=resp->nxb;
   nxb_append_str(nxb, response_body1);
@@ -1053,8 +1050,7 @@ const char* _nxweb_prepare_client_request_headers(nxweb_http_request *req) {
     nxb_append_str(nxb, "\r\n");
   }
   else {
-    //nxb_append_str(nxb, "User-Agent: nxweb/" REVISION "\r\n");
-    nxb_append_str(nxb, "User-Agent: ADFS\r\n");
+    nxb_append_str(nxb, "User-Agent: nxweb/" REVISION "\r\n");
   }
 
   if (req->cookie) {
